@@ -83,18 +83,11 @@ bool RIPEMD_160::read_file(char *fileName)                                      
     unsigned int file_size = (unsigned int)in.tellg();                                      //Размера
     in.seekg(0, ios::beg);                                                                  //Файла
 
-    char *mas = new char[file_size];                                                        //Выделяем память под массив для считывания
-
     message.resize(file_size);                                                              //Меняем размер строки результата в соответствии с размером файла
-    in.read(mas, file_size);                                                                //Считываем данные в массив
+    in.read((char*)&message.front(), file_size);                                            //Считываем данные в массив
     in.close();                                                                             //Закрываем файл
 
-    for (unsigned int i = 0; i < file_size; i++)                                            //Перекидываем все данные
-        message[i] = mas[i];                                                                //В строку, с которой далее будет работать алгоритм
-
-    delete [] mas;                                                                          //Освобождаем память
-
-    return true;                                                                            //Возвращаем 1 в случае успеха
+	return true;                                                                            //Возвращаем 1 в случае успеха
 }
 
 bool RIPEMD_160::write_file(char *fileName, string str)                                     //Запись в файл
